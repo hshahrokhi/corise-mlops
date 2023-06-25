@@ -71,9 +71,17 @@ def predict(request: PredictRequest):
     }
     3. Construct an instance of `PredictResponse` and return
     """
+
+    model_input = {
+        "source": request.source,
+        "url": request.url,
+        "title": request.title,
+        "description": request.description,
+    }
+
     start_time=datetime.datetime.now()
-    predictions = model.predict_proba(request)
-    labels = model.predict_label(request)
+    predictions = model.predict_proba(model_input)
+    labels = model.predict_label(model_input)
     response = PredictResponse(scores=predictions, label=labels)
 
     end_time=datetime.datetime.now()
