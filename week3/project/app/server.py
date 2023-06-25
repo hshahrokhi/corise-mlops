@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from loguru import logger
-
+import datetime
 from classifier import NewsCategoryClassifier
 
 
@@ -71,17 +71,17 @@ def predict(request: PredictRequest):
     }
     3. Construct an instance of `PredictResponse` and return
     """
-    start_time=dateytime.datetime.now()
-    predictions = model.predict_proba(model_input)
-    labels = model.predict_label(model_input)
+    start_time=datetime.datetime.now()
+    predictions = model.predict_proba(request)
+    labels = model.predict_label(request)
     response = PredictResponse(scores=predictions, label=labels)
 
     end_time=datetime.datetime.now()
 
     logger.info({
-        'timestamp': start_time.strftime("%Y-%m-%d %H:%M:%S")
-        'request': model_input
-        'prediction':response
+        'timestamp': start_time.strftime("%Y-%m-%d %H:%M:%S"),
+        'request': request,
+        'prediction':response,
         'latency':(end_time-start_time)*1000   
     })
     return response

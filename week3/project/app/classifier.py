@@ -73,7 +73,8 @@ class NewsCategoryClassifier:
         }
         """
         result={}
-        predictions=self.pipeline.predict_proba([model_input["description"]])[0]
+        predictions=self.pipeline.predict_proba([model_input["description"]])
+        # predictions=predictions[0]
         for c,p in zip(self.classes,predictions):
             result[c]=p
 
@@ -88,6 +89,6 @@ class NewsCategoryClassifier:
 
         Output format: predicted label for the model input
         """
-        result=self.pipeline.predict([model_input["description"]])[0]
+        result=self.pipeline.predict([model_input["description"]])#[0]
         return result
 
